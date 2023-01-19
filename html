@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Time Tracker</title>
+    <style>
+      /* Imposta il colore di sfondo bianco */
+      body {
+        background-color: white;
+      }
+      
+      /* Centra il contenuto della pagina */
+      #time-tracker {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      
+      /* Stile per il timer */
+      #timer {
+        font-size: 2rem;
+        color: black;
+      }
+      
+      /* Stile per i pulsanti */
+      .btn {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="time-tracker">
+      <div id="timer">00:00:00</div>
+      <div>
+        <button id="start-btn" class="btn">Start</button>
+        <button id="pause-btn" class="btn">Pause</button>
+        <button id="stop-btn" class="btn">Stop</button>
+      </div>
+    </div>
+    <script>
+      // Inizializza le variabili per il timer
+      var timer = document.getElementById("timer");
+      var startBtn = document.getElementById("start-btn");
+      var pauseBtn = document.getElementById("pause-btn");
+      var stopBtn = document.getElementById("stop-btn");
+      var interval;
+      var time = 0;
+      
+      // Funzione per avviare il timer
+      function startTimer() {
+        interval = setInterval(function() {
+          time++;
+          var seconds = time % 60;
+          var minutes = Math.floor(time / 60) % 60;
+          var hours = Math.floor(time / 3600);
+          var formattedTime =
+            (hours < 10 ? "0" + hours : hours) +
+            ":" +
+            (minutes < 10 ? "0" + minutes : minutes) +
+            ":" +
+            (seconds < 10 ? "0" + seconds : seconds);
+          timer.innerHTML = formattedTime;
+        }, 1000);
+        startBtn.disabled = true;
+        pauseBtn.disabled = false;
+        stopBtn.disabled = false;
+      }
+      
+      // Funzione per mettere in pausa il timer
+      function pauseTimer() {
+        clearInterval(interval);
+        startBtn.disabled = false;
+        pauseBtn.disabled = true;
+        stopBtn.disabled = false;
+      }
+      
+      // Funzione per fermare il timer
+      function stopTimer() {
+        clearInterval(interval);
+        startBtn.disabled = false;
+        pauseBtn.disabled = true;
+        stopBtn.disabled = true;
+        time = 0;
+        var endTime = timer.innerHTML;
+        alert("Tempo totale trascorso: " + endTime);
+        // aggiungi qui eventualmente codice per copiare il tempo totale trascorso in Notion.so
+      }
+
+      // Assegna le funzioni ai pulsanti
+      startBtn.addEventListener("click", startTimer);
+      pauseBtn.addEventListener("click", pauseTimer);
+      stopBtn.addEventListener("click", stopTimer);
+    </script>
+  </body>
+</html>
